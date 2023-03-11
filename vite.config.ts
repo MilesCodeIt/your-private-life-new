@@ -2,14 +2,15 @@ import { defineConfig } from "vite";
 import path from "node:path";
 
 import solid from "solid-start/vite";
-import vercel from "solid-start-vercel";
 import { VitePWA as pwa } from "vite-plugin-pwa";
+
+import vercel from "solid-start-vercel";
 
 export default defineConfig({
   plugins: [
     solid({
       ssr: false,
-      adapter: vercel({ edge: false })
+      adapter: process.env.VERCEL ? vercel({ edge: false }) : "solid-start-node"
     }),
 
     pwa({
