@@ -1,8 +1,8 @@
 // @refresh reload
 import { Suspense } from "solid-js";
+import "@/styles/globals.css";
+
 import {
-  useLocation,
-  A,
   Body,
   ErrorBoundary,
   FileRoutes,
@@ -12,35 +12,42 @@ import {
   Routes,
   Scripts,
   Title,
+  Link
 } from "solid-start";
-import "./root.css";
 
-export default function Root() {
-  const location = useLocation();
-  const active = (path: string) =>
-    path == location.pathname
-      ? "border-sky-600"
-      : "border-transparent hover:border-sky-600";
+export default function Root () {
   return (
-    <Html lang="en">
+    <Html lang="fr">
       <Head>
-        <Title>SolidStart - With TailwindCSS</Title>
         <Meta charset="utf-8" />
-        <Meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+        <Link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+        <Link rel="icon" href="/favicon.ico" sizes="any" />
+
+        <Meta name="color-scheme" content="dark light" />
+        <Meta name="theme-color" content="#000000" />
+
+        <Title>Your Private Life</Title>
+
+        <Meta name="title" content="Your Private Life" />
+        <Meta name="description" content="Your Private Life est un jeu web permettant de faire de la prévention sur les dangers du web et de l'Internet." />
+        <Link rel="canonical" href="https://your-private-life.vercel.app" />
+
+        <Meta property="og:type" content="website" />
+        <Meta property="og:url" content="https://your-private-life.vercel.app" />
+        <Meta property="og:title" content="Your Private Life" />
+        <Meta property="og:description" content="Your Private Life est un jeu web permettant de faire de la prévention sur les dangers du web et de l'Internet." />
+
+        <Meta property="twitter:card" content="summary_large_image" />
+        <Meta property="twitter:url" content="https://your-private-life.vercel.app" />
+        <Meta property="twitter:title" content="Your Private Life" />
+        <Meta property="twitter:description" content="Your Private Life est un jeu web permettant de faire de la prévention sur les dangers du web et de l'Internet." />
       </Head>
+
       <Body>
         <Suspense>
           <ErrorBoundary>
-            <nav class="bg-sky-800">
-              <ul class="container flex items-center p-3 text-gray-200">
-                <li class={`border-b-2 ${active("/")} mx-1.5 sm:mx-6`}>
-                  <A href="/">Home</A>
-                </li>
-                <li class={`border-b-2 ${active("/about")} mx-1.5 sm:mx-6`}>
-                  <A href="/about">About</A>
-                </li>
-              </ul>
-            </nav>
             <Routes>
               <FileRoutes />
             </Routes>
