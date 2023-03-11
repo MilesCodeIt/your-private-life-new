@@ -5,9 +5,12 @@ specifiers:
   '@motionone/solid': ^10.15.5
   '@solidjs/meta': ^0.28.2
   '@solidjs/router': ^0.7.0
+  '@types/bcryptjs': ^2.4.2
+  '@types/jsonwebtoken': ^9.0.1
   '@types/node': ^18.15.0
   autoprefixer: ^10.4.13
   bcryptjs: ^2.4.3
+  cookie: ^0.5.0
   jsonwebtoken: ^9.0.0
   mongoose: ^7.0.1
   postcss: ^8.4.21
@@ -27,6 +30,7 @@ dependencies:
   '@solidjs/meta': 0.28.2_solid-js@1.6.13
   '@solidjs/router': 0.7.1_solid-js@1.6.13
   bcryptjs: 2.4.3
+  cookie: 0.5.0
   jsonwebtoken: 9.0.0
   mongoose: 7.0.1
   solid-hcaptcha: 0.2.6_solid-js@1.6.13
@@ -35,6 +39,8 @@ dependencies:
   undici: 5.20.0
 
 devDependencies:
+  '@types/bcryptjs': 2.4.2
+  '@types/jsonwebtoken': 9.0.1
   '@types/node': 18.15.0
   autoprefixer: 10.4.14_postcss@8.4.21
   postcss: 8.4.21
@@ -1718,6 +1724,10 @@ packages:
     dependencies:
       '@babel/types': 7.21.2
 
+  /@types/bcryptjs/2.4.2:
+    resolution: {integrity: sha512-LiMQ6EOPob/4yUL66SZzu6Yh77cbzJFYll+ZfaPiPPFswtIlA/Fs1MzdKYA7JApHU49zQTbJGX3PDmCpIdDBRQ==}
+    dev: true
+
   /@types/cookie/0.5.1:
     resolution: {integrity: sha512-COUnqfB2+ckwXXSFInsFdOAWQzCCx+a5hq2ruyj+Vjund94RJQd4LG2u9hnvJrTgunKAaax7ancBYlDrNYxA0g==}
 
@@ -1726,6 +1736,12 @@ packages:
 
   /@types/estree/1.0.0:
     resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
+
+  /@types/jsonwebtoken/9.0.1:
+    resolution: {integrity: sha512-c5ltxazpWabia/4UzhIoaDcIza4KViOQhdbjRlfcIGVnsE3c3brkz9Z+F/EeJIECOQP7W7US2hNE930cWWkPiw==}
+    dependencies:
+      '@types/node': 18.15.0
+    dev: true
 
   /@types/node/18.15.0:
     resolution: {integrity: sha512-z6nr0TTEOBGkzLGmbypWOGnpSpSIBorEhC4L+4HeQ2iezKCi4f77kyslRwvHeNitymGQ+oFyIWGP96l/DPSV9w==}
@@ -2148,6 +2164,11 @@ packages:
 
   /convert-source-map/1.9.0:
     resolution: {integrity: sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==}
+
+  /cookie/0.5.0:
+    resolution: {integrity: sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==}
+    engines: {node: '>= 0.6'}
+    dev: false
 
   /core-js-compat/3.29.0:
     resolution: {integrity: sha512-ScMn3uZNAFhK2DGoEfErguoiAHhV2Ju+oJo/jK08p7B3f3UhocUrCCkTvnZaiS+edl5nlIoiBXKcwMc6elv4KQ==}
