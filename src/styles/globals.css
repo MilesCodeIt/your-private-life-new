@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes stroke_animation {
+  from {
+    stroke-dashoffset: 0;
+  }
+  
+  to {
+    stroke-dashoffset: 400;
+  }
+}
+
+@keyframes fill_animation {
+  from {
+    stroke-dashoffset: 0;
+    stroke-dasharray: 100;
+    stroke: #fff;
+    fill: #000;
+  }
+
+  to {
+    fill: #fff;
+    stroke: #000;
+    stroke-dashoffset: 400;
+    stroke-dasharray: 0;
+  }
+}
+
+.full-logo-active path {
+  animation: fill_animation 2s linear forwards;
+  stroke-dashoffset: 300;
+  stroke-dasharray: 100;
+}
+
+.full-logo-not-active path {
+  animation: stroke_animation 2s linear infinite;
+  stroke-dashoffset: 300;
+  stroke-dasharray: 100;
+}

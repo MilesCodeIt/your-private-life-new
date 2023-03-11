@@ -1,7 +1,9 @@
 // @refresh reload
-import { Suspense } from "solid-js";
+import "@fontsource/fira-code/400.css";
 import "@/styles/globals.css";
 
+
+import { Suspense } from "solid-js";
 import {
   Body,
   ErrorBoundary,
