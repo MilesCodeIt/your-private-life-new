@@ -2,7 +2,7 @@
 import "@fontsource/fira-code/400.css";
 import "@/styles/globals.css";
 
-import { Suspense, onMount, Switch, Match } from "solid-js";
+import { Suspense, onMount, Switch, Match, createMemo } from "solid-js";
 import { Motion, Presence } from "@motionone/solid";
 
 import {
@@ -50,7 +50,7 @@ export default function Root () {
   });
 
   /** When we ended the API check for existing user session and API responded with an user. */
-  const userLoadedAndLogged = () => user.loaded && user.logged_in;
+  const userLoadedAndLogged = createMemo(() => user.loaded && user.logged_in);
   /** When we ended the API check for existing user session and API responded with an error - no user. */
   const userLoadedAndNotLogged = () => user.loaded && !user.logged_in;
 
@@ -95,20 +95,22 @@ export default function Root () {
                     </Routes>
                   </Match>
 
-                  <Match when={!user.loaded || userLoadedAndNotLogged()}>
+                  <Match when={userLoadedAndNotLogged()}>
                     <Motion.div
-                      class="transition-[max-height] duration-1000 ease-in overflow-hidden"
-                      classList={{ "hidden": !user.loaded, "flex flex-col items-center justify-center gap-6": userLoadedAndNotLogged() }}
-                      animate={{
-                        // Expand animation.
-                        maxHeight: userLoadedAndNotLogged() ? "100vh" : 0,
-                        // Gap between full text logo and `/boot` pages.
-                        marginTop: userLoadedAndNotLogged() ? "12px" : 0,
-                        // Smooth.
-                        opacity: userLoadedAndNotLogged() ? 1 : 0,
-                        y: userLoadedAndNotLogged() ? 0 : -8
+                      class="max-h-0 flex flex-col items-center justify-center gap-6 transition-[max-height] duration-1000 ease-in overflow-hidden"
+                      initial={{
+                        maxHeight: 0,
+                        marginTop: 0,
+                        opacity: 0,
+                        y: -8
                       }}
-                      transition={{ delay: 1, duration: 2 }}
+                      animate={{
+                        maxHeight: "100vh",
+                        marginTop: "12px",
+                        opacity: 1,
+                        y: 0
+                      }}
+                      transition={{ delay: 2, duration: 2 }}
                     >
                       <Routes>
                         <FileRoutes />
