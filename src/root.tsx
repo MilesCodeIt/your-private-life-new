@@ -67,20 +67,6 @@ export default function Root () {
         <Meta name="theme-color" content="#000000" />
 
         <Title>Your Private Life</Title>
-
-        <Meta name="title" content="Your Private Life" />
-        <Meta name="description" content="Your Private Life est un jeu web permettant de faire de la prévention sur les dangers du web et de l'Internet." />
-        <Link rel="canonical" href="https://your-private-life.vercel.app" />
-
-        <Meta property="og:type" content="website" />
-        <Meta property="og:url" content="https://your-private-life.vercel.app" />
-        <Meta property="og:title" content="Your Private Life" />
-        <Meta property="og:description" content="Your Private Life est un jeu web permettant de faire de la prévention sur les dangers du web et de l'Internet." />
-
-        <Meta property="twitter:card" content="summary_large_image" />
-        <Meta property="twitter:url" content="https://your-private-life.vercel.app" />
-        <Meta property="twitter:title" content="Your Private Life" />
-        <Meta property="twitter:description" content="Your Private Life est un jeu web permettant de faire de la prévention sur les dangers du web et de l'Internet." />
       </Head>
 
       <Body>
