@@ -1,6 +1,5 @@
 import type { Component } from "solid-js";
 
-import { A } from "solid-start";
 import { createSignal } from "solid-js";
 
 import { writeText } from "@/utils/animations";
