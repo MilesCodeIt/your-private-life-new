@@ -21,8 +21,14 @@
     "vite-plugin-pwa": "^0.14.4"
   },
   "dependencies": {
+    "@fontsource/fira-code": "^4.5.13",
+    "@motionone/solid": "^10.15.5",
     "@solidjs/meta": "^0.28.2",
     "@solidjs/router": "^0.7.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.1",
+    "solid-hcaptcha": "^0.2.6",
     "solid-js": "^1.6.11",
     "solid-start": "^0.2.23",
     "undici": "^5.15.1"
