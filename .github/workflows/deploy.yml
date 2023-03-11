@@ -2,10 +2,8 @@ name: Deploy
 
 on:
   push:
-    paths:
-      - "sources/**"
-      - "!sources/README.md"
-
+    branches:
+      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
