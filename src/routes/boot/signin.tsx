@@ -20,13 +20,21 @@ const BootSigninPage: Component = () => {
     onTextEdit: (char) => setText(prev => prev + char)
   });
 
-  const handleFormSubmit: JSX.EventHandler<HTMLFormElement, SubmitEvent> = (event) => {
+  const handleFormSubmit: JSX.EventHandler<HTMLFormElement, SubmitEvent> = async (event) => {
     event.preventDefault();
 
-    console.info({
-      u: username(),
-      p: password()
+    const response = await fetch("/api/auth/signin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+
+      body: JSON.stringify({
+        username: username(),
+        password: password()
+      })
     });
+
+    const data = await response.json();
+    console.log(data);
   }
 
   return (
