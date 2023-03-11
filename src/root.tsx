@@ -97,8 +97,8 @@ export default function Root () {
 
                   <Match when={!user.loaded || userLoadedAndNotLogged()}>
                     <Motion.div
-                      class="flex flex-col items-center justify-center gap-6 transition-[max-height] duration-1000 ease-in overflow-hidden"
-                      classList={{ "hidden": !user.loaded }}
+                      class="transition-[max-height] duration-1000 ease-in overflow-hidden"
+                      classList={{ "hidden": !user.loaded, "flex flex-col items-center justify-center gap-6": userLoadedAndNotLogged() }}
                       animate={{
                         // Expand animation.
                         maxHeight: userLoadedAndNotLogged() ? "100vh" : 0,
