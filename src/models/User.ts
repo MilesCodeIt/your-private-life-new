@@ -1,26 +1,21 @@
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true
-  },
+export interface IUser {
+  username: string;
+  password: string;
+  email: string;
 
-  password: {
-    type: String,
-    required: true
-  },
+  levels: Map<string, boolean>
+}
 
-  /**
-   * Chaque key est l'ID d'un niveau.
-   * Chaque valeur de keys est boolean (true si le niveau est validé).
-   */
-  levels: {
-    type: Map,
-    of: Boolean,
-    required: true
-  }
+const UserSchema = new mongoose.Schema<IUser>({
+  username: { type: String, required: true },
+  password: { type: String, required: true },
+  email: { type: String, required: true },
+
+  levels: { type: Map, of: Boolean, required: true }
 });
 
-export default mongoose.models.User || mongoose.model("User", UserSchema);
+export default (
+  mongoose.models.User || mongoose.model<IUser>("User", UserSchema)
+) as mongoose.Model<IUser>;
