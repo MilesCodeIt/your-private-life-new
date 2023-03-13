@@ -23,7 +23,7 @@ export interface ApiAuthSignup {
 }
 
 export const POST = createApiHandler<ApiAuthSignup>(async (req, res) => {
-  const body = await req.body();
+  const body = await req.body() as ApiAuthSignup["request"];
   
   const username = (body?.username ?? "").trim();
   const email = (body?.email ?? "").toLowerCase().trim();
@@ -85,7 +85,7 @@ export const POST = createApiHandler<ApiAuthSignup>(async (req, res) => {
   });
 
   const user_data = {
-    id: createdUser._id,
+    id: createdUser._id.toString(),
     username: createdUser.username
   };
 
