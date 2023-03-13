@@ -1,7 +1,7 @@
 import type { JSX, Component } from "solid-js";
 
 import { createSignal } from "solid-js";
-import { A } from "solid-start";
+import { A, useNavigate } from "solid-start";
 
 import { writeText } from "@/utils/animations";
 
@@ -9,6 +9,7 @@ import BootInput from "@/components/boot/Input";
 import BootButton from "@/components/boot/Button";
 
 const BootSigninPage: Component = () => {
+  const navigate = useNavigate();
   const [text, setText] = createSignal("");
   
   const [username, setUsername] = createSignal("");
@@ -33,8 +34,7 @@ const BootSigninPage: Component = () => {
       })
     });
 
-    const data = await response.json();
-    console.log(data);
+    if (response.ok) navigate("/dashboard");
   }
 
   return (
