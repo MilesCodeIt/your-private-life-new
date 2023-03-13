@@ -8,7 +8,8 @@ import { makeUserToken, setUserToken } from "@/utils/server/cookie";
 
 export interface ApiAuthLogin {
   request: {
-    username: string,
+    /** Can be username or e-mail. */
+    uid: string,
     password: string
   }
 
@@ -21,13 +22,13 @@ export interface ApiAuthLogin {
 }
 
 export const POST = createApiHandler<ApiAuthLogin>(async (req, res) => {
-  const body = await req.body();
+  const body = await req.body() as ApiAuthLogin["request"];
 
-  const username = (body?.username ?? "").trim();
+  const uid = (body?.uid ?? "").trim();
 
-  if (!username || !body.password) {
-    return res.error("Nom d'utilisateur ou mot de passe manquant.", { status: 400, debug: {
-      username
+  if (!uid || !body.password) {
+    return res.error("Identifiant ou mot de passe manquant.", { status: 400, debug: {
+      uid
     }});
   }
 
@@ -35,7 +36,10 @@ export const POST = createApiHandler<ApiAuthLogin>(async (req, res) => {
 
   // Récupération de l'utilisateur.
   const user = await User.findOne({
-    username: { $regex: new RegExp(username, "i") }
+    $or: [
+      { username: { $regex: new RegExp(uid, "i") } },
+      { email: { $regex: new RegExp(uid, "i") } }
+    ]
   });
 
   // Vérfiication de l'existence de l'utilisateur.
@@ -46,7 +50,7 @@ export const POST = createApiHandler<ApiAuthLogin>(async (req, res) => {
   if (!verified) return res.error("Le mot de passe est incorrect", { status: 401 });
 
   const user_data = {
-    id: user._id,
+    id: user._id.toString(),
     username: user.username
   };
 
