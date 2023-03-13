@@ -12,7 +12,7 @@ const BootSigninPage: Component = () => {
   const navigate = useNavigate();
   const [text, setText] = createSignal("");
   
-  const [username, setUsername] = createSignal("");
+  const [uid, setUid] = createSignal("");
   const [password, setPassword] = createSignal("");
 
   writeText({
@@ -29,7 +29,7 @@ const BootSigninPage: Component = () => {
       headers: { "Content-Type": "application/json" },
 
       body: JSON.stringify({
-        username: username(),
+        uid: uid(),
         password: password()
       })
     });
@@ -48,10 +48,10 @@ const BootSigninPage: Component = () => {
       >
         <BootInput
           type="text"
-          placeholder="nom d'utilisateur"
+          placeholder="identifiant"
 
-          value={username()}
-          setValue={(value) => setUsername(value)}
+          value={uid()}
+          setValue={(value) => setUid(value)}
         />
 
         <BootInput
