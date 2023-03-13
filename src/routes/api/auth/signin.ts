@@ -1,11 +1,10 @@
 import { createApiHandler } from "@/utils/server/request";
 
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import User from "@/models/User";
 
 import { getDatabaseConnection } from "@/utils/server/database";
-import { setUserToken } from "@/utils/server/cookie";
-import User from "@/models/User";
+import { makeUserToken, setUserToken } from "@/utils/server/cookie";
 
 export interface ApiAuthLogin {
   request: {
@@ -22,17 +21,21 @@ export interface ApiAuthLogin {
 }
 
 export const POST = createApiHandler<ApiAuthLogin>(async (req, res) => {
-  const body = await req.body() as ApiAuthLogin["request"];
+  const body = await req.body();
 
-  if (!body.username || !body.password) {
-    return res.error("Identifiant ou mot de passe manquant.", { status: 400, debug: body});
+  const username = (body?.username ?? "").trim();
+
+  if (!username || !body.password) {
+    return res.error("Nom d'utilisateur ou mot de passe manquant.", { status: 400, debug: {
+      username
+    }});
   }
 
   await getDatabaseConnection();
 
   // Récupération de l'utilisateur.
   const user = await User.findOne({
-    username: { $regex: new RegExp(body.username, "i") }
+    username: { $regex: new RegExp(username, "i") }
   });
 
   // Vérfiication de l'existence de l'utilisateur.
@@ -42,21 +45,13 @@ export const POST = createApiHandler<ApiAuthLogin>(async (req, res) => {
   const verified = await bcrypt.compare(body.password, user.password);
   if (!verified) return res.error("Le mot de passe est incorrect", { status: 401 });
 
-  // Payload que contiendra le token.
-  const payload = {
-    data: {
-      id: user._id,
-      username: user.username
-    } as ApiAuthLogin["response"]["user"]
+  const user_data = {
+    id: user._id,
+    username: user.username
   };
 
-  // Le token doit expirer après une semaine.
-  const expiresIn = 60 * 60 * 24 * 7;
-
   // Création du token.
-  const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
-    expiresIn
-  });
+  const token = makeUserToken(user_data);
 
   // Sauvegarde du token dans les cookies.
   const setCookieHeader = await setUserToken(token);
@@ -65,6 +60,6 @@ export const POST = createApiHandler<ApiAuthLogin>(async (req, res) => {
   headers.set("Set-Cookie", setCookieHeader);
 
   return res.success({
-    user: payload.data
+    user: user_data
   }, headers);
 });

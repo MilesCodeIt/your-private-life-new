@@ -1,4 +1,5 @@
 import { createCookieSessionStorage } from 'solid-start';
+import jwt from "jsonwebtoken";
  
 const storage = createCookieSessionStorage({
   cookie: {
@@ -24,3 +25,23 @@ export const setUserToken = async (token: string, cookies?: string) => {
   /** Returns value for "Set-Cookie" header. */
   return await storage.commitSession(session);
 }
+
+export const makeUserToken = (user: {
+  id: string,
+  username: string
+}) => {
+  // Payload que contiendra le token.
+  const payload = {
+    data: user
+  };
+
+  // Le token doit expirer après une semaine.
+  const expiresIn = 60 * 60 * 24 * 7;
+
+  // Création du token.
+  const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
+    expiresIn
+  });
+
+  return token;
+};
