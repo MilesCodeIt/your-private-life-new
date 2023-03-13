@@ -23,20 +23,20 @@ const BootMainPage: Component = () => {
       <div class="mt-6 flex gap-4 font-mono">
         <BootButton
           type="link"
-          href="./signin"
+          href="/boot/signin"
           name="Connexion"
         />
 
         <BootButton
           type="link"
-          href="./signup"
+          href="/boot/signup"
           name="Inscription"
         />
       </div>
 
       <a
         class="font-mono text-[#CCCCCC] border-b border-b-[#CCCCCC] hover:text-[#B3B3B3] hover:border-b-[#B3B3B3]"
-        href="https://github.com/MilesCodeIt/your-private-life-new"
+        href="https://github.com/MilesCodeIt/your-private-life"
         target="_blank"
       >
         GitHub
