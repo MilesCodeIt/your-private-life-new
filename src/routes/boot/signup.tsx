@@ -1,13 +1,9 @@
 import type { JSX, Component } from "solid-js";
-
-import type {
-  HCaptchaFunctions,
-  HCaptchaExecuteResponse
-} from "solid-hcaptcha";
+import type { HCaptchaFunctions } from "solid-hcaptcha";
 
 import { createSignal } from "solid-js";
 import HCaptcha from "solid-hcaptcha";
-import { A } from "solid-start";
+import { A, useNavigate } from "solid-start";
 
 import { writeText } from "@/utils/animations";
 
@@ -15,6 +11,7 @@ import BootInput from "@/components/boot/Input";
 import BootButton from "@/components/boot/Button";
 
 const BootSigninPage: Component = () => {
+  const navigate = useNavigate();
   const [text, setText] = createSignal("");
   
   let hcaptcha: HCaptchaFunctions | undefined;
@@ -49,6 +46,8 @@ const BootSigninPage: Component = () => {
         captcha: captcha.response
       })
     });
+
+    if (response.ok) navigate("/dashboard");
   }
 
   return (
