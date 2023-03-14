@@ -1,10 +1,15 @@
 import type { Component } from "solid-js";
+import Onboarding from "@/components/onboarding";
 
 const DashboardHomePage: Component = () => {
   return (
-    <div>
-      Hello World!
-    </div>
+    <>
+      <Onboarding />
+      
+      <div>
+        Hello World!
+      </div>
+    </>
   );
 };
 
