@@ -1,17 +1,19 @@
 import type { JSX, Component } from "solid-js";
 import type { HCaptchaFunctions } from "solid-hcaptcha";
+import type { ApiAuthSignup } from "@/routes/api/auth/signup";
 
 import { createSignal } from "solid-js";
 import HCaptcha from "solid-hcaptcha";
-import { A, useNavigate } from "solid-start";
+import { A } from "solid-start";
 
 import { writeText } from "@/utils/animations";
 
 import BootInput from "@/components/boot/Input";
 import BootButton from "@/components/boot/Button";
 
+import { setUser } from "@/stores/user";
+
 const BootSigninPage: Component = () => {
-  const navigate = useNavigate();
   const [text, setText] = createSignal("");
   
   let hcaptcha: HCaptchaFunctions | undefined;
@@ -47,7 +49,18 @@ const BootSigninPage: Component = () => {
       })
     });
 
-    if (response.ok) navigate("/dashboard");
+    if (response.ok) {
+      const { data: { user } } = await response.json() as {
+        success: true,
+        data: ApiAuthSignup["response"]
+      };
+
+      setUser({
+        logged_in: true,
+        username: user.username,
+        id: user.id
+      });
+    }
   }
 
   return (

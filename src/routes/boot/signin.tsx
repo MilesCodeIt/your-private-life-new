@@ -1,15 +1,17 @@
 import type { JSX, Component } from "solid-js";
+import type { ApiAuthSignin } from "@/routes/api/auth/signin";
 
 import { createSignal } from "solid-js";
-import { A, useNavigate } from "solid-start";
+import { A } from "solid-start";
 
 import { writeText } from "@/utils/animations";
 
 import BootInput from "@/components/boot/Input";
 import BootButton from "@/components/boot/Button";
 
+import { setUser } from "@/stores/user";
+
 const BootSigninPage: Component = () => {
-  const navigate = useNavigate();
   const [text, setText] = createSignal("");
   
   const [uid, setUid] = createSignal("");
@@ -34,7 +36,18 @@ const BootSigninPage: Component = () => {
       })
     });
 
-    if (response.ok) navigate("/dashboard");
+    if (response.ok) {
+      const { data: { user } } = await response.json() as {
+        success: true,
+        data: ApiAuthSignin["response"]
+      };
+
+      setUser({
+        logged_in: true,
+        username: user.username,
+        id: user.id
+      });
+    }
   }
 
   return (

@@ -2,7 +2,7 @@
 import "@fontsource/fira-code/400.css";
 import "@/styles/globals.css";
 
-import { Suspense, onMount, Switch, Match, createMemo } from "solid-js";
+import { Suspense, onMount, Switch, Match, createMemo, createEffect, on } from "solid-js";
 import { Motion, Presence } from "@motionone/solid";
 
 import {
@@ -16,7 +16,8 @@ import {
   Scripts,
   Title,
   Link,
-  useNavigate
+  useNavigate,
+  useLocation
 } from "solid-start";
 
 import FullLogo from "@/assets/logos/FullLogo";
@@ -24,11 +25,11 @@ import { user, setUser } from "@/stores/user";
 
 export default function Root () {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  onMount(async () => {
+  const checkUserAuthentication = async () => {
     const response = await fetch("/api/user");
-    
-    // User is logged in.
+
     if (response.ok) {
       const body = await response.json();
 
@@ -40,19 +41,38 @@ export default function Root () {
         id: body.data.user.id
       });
 
-      navigate("/dashboard");
-      return;
+      return true;
     }
 
-    // User is not logged in.
-    setUser({ loaded: true, logged_in: false });
-    navigate("/boot");
-  });
+    setUser({
+      loaded: true,
+      logged_in: false
+    });
+
+    return false;
+  }
 
   /** When we ended the API check for existing user session and API responded with an user. */
   const userLoadedAndLogged = createMemo(() => user.loaded && user.logged_in);
   /** When we ended the API check for existing user session and API responded with an error - no user. */
   const userLoadedAndNotLogged = () => user.loaded && !user.logged_in;
+
+  // Check user authentication when we first load the web app.
+  onMount(checkUserAuthentication);
+
+  // We check at every location/authentication change.
+  createEffect(on([() => location.pathname, () => user.logged_in], ([path]) => {
+    if (userLoadedAndNotLogged() && !path.includes("/boot")) {
+      navigate("/boot");
+      return;
+    }
+
+    if (userLoadedAndLogged() && path.includes("/boot")) {
+      navigate("/dashboard");
+      return;
+    }
+  }));
+
 
   return (
     <Html lang="fr">
@@ -70,19 +90,24 @@ export default function Root () {
       </Head>
 
       <Body>
-        <main class="min-h-screen w-full"
+        <main class="min-h-screen w-full transition-colors bg-black"
           classList={{
-            "flex flex-col items-center justify-center bg-black": !user.logged_in
+            "flex flex-col items-center justify-center": !user.logged_in,
           }}
         >
-          <Motion.div class="w-full flex justify-center items-center"
+          <Motion.div class="w-full flex justify-center items-center pointer-events-none"
             animate={{ opacity: userLoadedAndLogged() ? 0 : 1 }}
-            transition={{ duration: 1, delay: 2 }}
+            transition={{ duration: 1, delay: 2.5 }}
             classList={{
               "z-50 fixed inset-0 min-h-screen flex-col bg-black": userLoadedAndLogged()
             }}
           >
-            <FullLogo class={`h-auto w-full max-w-[600px] ${user.loaded ? "full-logo-active" : "full-logo-not-active"}`} />
+            <Motion.div class="w-full flex justify-center items-center"
+              animate={{ opacity: userLoadedAndLogged() ? 0 : 1 }}
+              transition={{ duration: 1, delay: 2 }}
+            >
+              <FullLogo class={`h-auto w-full max-w-[600px] ${user.loaded ? "full-logo-active" : "full-logo-not-active"}`} />
+            </Motion.div>
           </Motion.div>
 
           <Suspense>

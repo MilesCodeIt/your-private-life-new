@@ -6,7 +6,7 @@ import User from "@/models/User";
 import { getDatabaseConnection } from "@/utils/server/database";
 import { makeUserToken, setUserToken } from "@/utils/server/cookie";
 
-export interface ApiAuthLogin {
+export interface ApiAuthSignin {
   request: {
     /** Can be username or e-mail. */
     uid: string,
@@ -21,8 +21,8 @@ export interface ApiAuthLogin {
   }
 }
 
-export const POST = createApiHandler<ApiAuthLogin>(async (req, res) => {
-  const body = await req.body() as ApiAuthLogin["request"];
+export const POST = createApiHandler<ApiAuthSignin>(async (req, res) => {
+  const body = await req.body() as ApiAuthSignin["request"];
 
   const uid = (body?.uid ?? "").trim();
 
