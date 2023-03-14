@@ -1,5 +1,6 @@
 // @refresh reload
 import "@fontsource/fira-code/400.css";
+import "@fontsource/fira-code/500.css";
 import "@/styles/globals.css";
 
 import { Suspense, onMount, Switch, Match, createMemo, createEffect, on } from "solid-js";
@@ -49,6 +50,10 @@ export default function Root () {
       logged_in: false
     });
 
+    if (!location.pathname.includes("/boot")) {
+      navigate("/boot");
+    }
+
     return false;
   }
 
@@ -61,7 +66,7 @@ export default function Root () {
   onMount(checkUserAuthentication);
 
   // We check at every location/authentication change.
-  createEffect(on([() => location.pathname, () => user.logged_in], ([path]) => {
+  createEffect(on([() => location.pathname, () => user.logged_in], ([path, logged_in]) => {
     if (userLoadedAndNotLogged() && !path.includes("/boot")) {
       navigate("/boot");
       return;
